@@ -45,12 +45,11 @@ exports.getReports = async (req, res) => {
       if (dataA) query.createdAt.$lte = new Date(`${dataA}T23:59:59.999Z`);
     }
 
-    // ==> NUOVA LOGICA PER L'ORDINAMENTO <==
     const sortOptions = {};
     sortOptions[sortBy] = sortOrder === 'asc' ? 1 : -1;
 
     const reports = await Report.find(query)
-        .sort(sortOptions) // Applica l'ordinamento
+        .sort(sortOptions)
         .limit(limit * 1)
         .skip((page - 1) * limit)
         .populate('submittedBy', 'name email');
@@ -104,7 +103,6 @@ exports.exportReports = async (req, res) => {
     const headers = 'Data;Farmaco;Eta Paziente;Sesso;Gravita;Descrizione;Inserito Da\n';
 
     const rows = reports.map(r => {
-      // Controlli di sicurezza per ogni campo
       const data = r.createdAt ? new Date(r.createdAt).toLocaleDateString('it-IT') : 'N/D';
       const farmaco = r.farmaco?.nomeCommerciale || 'N/D';
       const eta = r.paziente?.eta || 'N/D';
@@ -120,7 +118,7 @@ exports.exportReports = async (req, res) => {
 
     res.header('Content-Type', 'text/csv; charset=utf-8');
     res.attachment('segnalazioni.csv');
-    res.send(Buffer.from(csv, 'utf-8')); // Invia come buffer per gestire meglio i caratteri
+    res.send(Buffer.from(csv, 'utf-8'));
 
   } catch (err) {
     console.error("ERRORE ESPORTAZIONE:", err);

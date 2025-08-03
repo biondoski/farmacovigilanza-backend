@@ -8,7 +8,7 @@ exports.getDashboardSummary = async (req, res) => {
       top5Drugs,
       last5Reports,
       reportLocations,
-      totalGraveReports // <== NUOVO
+      totalGraveReports
     ] = await Promise.all([
       Report.countDocuments(),
       Report.aggregate([
@@ -22,8 +22,7 @@ exports.getDashboardSummary = async (req, res) => {
       ]),
       Report.find().sort({ createdAt: -1 }).limit(5).select('farmaco.nomeCommerciale reazione.gravita createdAt'),
       Report.find({ 'localita.coordinates': { $exists: true, $ne: [] } }).select('localita farmaco.nomeCommerciale reazione.gravita'),
-      // Conta solo i documenti dove la gravità è 'Grave'
-      Report.countDocuments({ 'reazione.gravita': 'Grave' }) // <== NUOVO
+      Report.countDocuments({ 'reazione.gravita': 'Grave' })
     ]);
 
     res.status(200).json({
@@ -32,10 +31,9 @@ exports.getDashboardSummary = async (req, res) => {
       top5Drugs,
       last5Reports,
       reportLocations,
-      totalGraveReports // <== NUOVO
+      totalGraveReports
     });
 
   } catch (err) {
-    // ... (gestione errore esistente)
   }
 };

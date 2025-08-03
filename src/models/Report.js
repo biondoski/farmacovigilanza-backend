@@ -31,7 +31,7 @@ const ReportSchema = new Schema({
       required: false
     },
     coordinates: {
-      type: [Number], // [longitudine, latitudine]
+      type: [Number],
       required: false
     }
   }
@@ -39,7 +39,6 @@ const ReportSchema = new Schema({
   timestamps: true
 });
 
-// Indici per le query
 ReportSchema.index({ 'reazione.descrizione': 'text', 'farmaco.nomeCommerciale': 'text' });
 ReportSchema.index({ localita: '2dsphere' });
 

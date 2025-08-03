@@ -1,13 +1,11 @@
 const User = require('../models/User');
-const bcrypt = require('bcryptjs'); // <-- AGGIUNGI QUESTA RIGA MANCANTE
+const bcrypt = require('bcryptjs');
 
-// @desc    Ottiene tutti gli utenti
 exports.getUsers = async (req, res) => {
     const users = await User.find().select('-password');
     res.status(200).json(users);
 };
 
-// @desc    Crea un nuovo utente (solo Admin)
 exports.createUser = async (req, res) => {
     const { name, email, password, role } = req.body;
 
@@ -31,7 +29,6 @@ exports.createUser = async (req, res) => {
             role
         });
 
-        // Rimuoviamo la password dalla risposta
         const userResponse = user.toObject();
         delete userResponse.password;
 
@@ -42,7 +39,6 @@ exports.createUser = async (req, res) => {
     }
 };
 
-// @desc    Elimina un utente
 exports.deleteUser = async (req, res) => {
     const user = await User.findByIdAndDelete(req.params.id);
     if (!user) {

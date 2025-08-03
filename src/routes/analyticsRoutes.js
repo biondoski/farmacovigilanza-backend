@@ -10,8 +10,8 @@ router.get('/reports-by-drug', getReportsByDrug);
 router.get('/reactions-by-drug-age', getReactionsByDrugAndAge);
 router.get('/monthly-trend', getMonthlyTrendByDrug);
 router.post('/dynamic', runDynamicAnalysis);
-router.get('/hot-lots', getHotLotsByDrug); // <-- Aggiungi questa rotta
-router.post('/symptom-correlation', getSymptomCorrelation); // <-- Aggiungi
-router.post('/demographics', getDemographicAnalysis); // <-- Aggiungi
+router.get('/hot-lots', getHotLotsByDrug);
+router.post('/symptom-correlation', getSymptomCorrelation);
+router.post('/demographics', getDemographicAnalysis);
 
 module.exports = router;

@@ -12,7 +12,6 @@ const {
   exportReports
 } = require('../controllers/reportController');
 
-// Proteggiamo tutte le rotte CRUD
 router.use(protect);
 
 router.route('/')
