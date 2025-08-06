@@ -17,7 +17,8 @@
     "jsonwebtoken": "^9.0.2",
     "leaflet": "^1.9.4",
     "mongoose": "^8.4.1",
-    "natural": "^7.0.6"
+    "natural": "^7.0.6",
+    "stopwords-it": "^0.4.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.3"
