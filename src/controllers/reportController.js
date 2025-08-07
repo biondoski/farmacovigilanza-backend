@@ -53,18 +53,25 @@ exports.getReports = async (req, res) => {
     const sortOptions = {};
     sortOptions[sortBy] = sortOrder === 'asc' ? 1 : -1;
 
-    const reports = await Report.find(query)
+    const limitValue = parseInt(limit);
+    const pageValue = parseInt(page);
+
+    let reportsQuery = Report.find(query)
         .sort(sortOptions)
-        .limit(limit * 1)
-        .skip((page - 1) * limit)
         .populate('submittedBy', 'name email');
 
+    // Applica la paginazione solo se il limite non è 0
+    if (limitValue !== 0) {
+      reportsQuery = reportsQuery.limit(limitValue).skip((pageValue - 1) * limitValue);
+    }
+
+    const reports = await reportsQuery;
     const count = await Report.countDocuments(query);
 
     res.status(200).json({
       reports,
-      totalPages: Math.ceil(count / limit),
-      currentPage: parseInt(page)
+      totalPages: limitValue !== 0 ? Math.ceil(count / limitValue) : 1,
+      currentPage: pageValue
     });
   } catch (err) {
     res.status(500).json({ message: 'Errore del server' });

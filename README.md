@@ -17,16 +17,17 @@ Questo repository contiene il codice sorgente per il backend della Piattaforma d
 ## Funzionalità Principali
 
 * 🔒 **Autenticazione Sicura:** Sistema di login e registrazione basato su **JSON Web Tokens (JWT)**.
-* 👤 **Controllo degli Accessi Basato sui Ruoli (RBAC):** Tre livelli di utenza (`Operatore`, `Analista`, `Admin`) con permessi granulari.
+* 👤 **Controllo degli Accessi Basato sui Ruoli (RBAC):** Tre livelli di utenza (`Operatore`, `Analista`, `Admin`) con permessi distinti.
 * 🇮🇹 **Modello Dati Conforme AIFA:** La struttura delle segnalazioni è basata sulle schede ufficiali dell'Agenzia Italiana del Farmaco.
 * 📝 **API CRUD Complete:** Gestione completa (Creazione, Lettura, Aggiornamento, Eliminazione) delle segnalazioni e degli utenti.
-* 🧠 **NLP (Natural Language Processing):** Categoriazzione automatica dei sintomi descritti in testo libero tramite tokenizzazione e stemming con la libreria `natural`.
+* 🧠 **Elaborazione del Linguaggio Naturale (NLP):** Categoriazzione automatica dei sintomi descritti in testo libero tramite tokenizzazione e stemming con la libreria `natural`.
 * 📊 **Endpoint di Analisi Avanzata:**
     * API dinamiche per alimentare dashboard complesse con filtri globali.
     * Analisi di correlazione tra sintomi (co-occorrenza).
     * Analisi per lotti di produzione ("hot lots") per identificare picchi di reazioni.
-    * Analisi demografica per fasce d'età e sesso.
+    * Analisi demografica per età e sesso.
 * 📄 **Esportazione Dati:** Endpoint dedicato per l'esportazione delle segnalazioni in formato CSV.
+* 🤖 **Integrazione Assistente AI:** Un endpoint che si collega all'**API di Google Gemini** per fornire analisi intelligenti delle segnalazioni (riepilogo, identificazione rischi, suggerimenti MedDRA).
 
 ---
 
@@ -37,7 +38,8 @@ Questo repository contiene il codice sorgente per il backend della Piattaforma d
 * **Database:** MongoDB con Mongoose (ODM)
 * **Autenticazione:** JSON Web Token (`jsonwebtoken`), `bcryptjs` per l'hashing.
 * **NLP:** `natural`
-* **Process Management (Produzione):** PM2
+* **AI:** `@google/generative-ai`
+* **Gestione Processi (Produzione):** PM2
 
 ---
 
@@ -53,7 +55,7 @@ Questo repository contiene il codice sorgente per il backend della Piattaforma d
 
 1.  **Clonare il repository:**
     ```bash
-    git clone <URL_DEL_REPOSITORY>
+    git clone <URL_DEL_REPOSITORY_BACKEND>
     cd farmacovigilanza-backend
     ```
 
@@ -68,11 +70,13 @@ Questo repository contiene il codice sorgente per il backend della Piattaforma d
         ```env
         MONGO_URI=TUA_STRINGA_DI_CONNESSIONE_MONGODB
         JWT_SECRET=TUA_CHIAVE_SEGRETA_PER_JWT
+        GEMINI_API_KEY=TUA_CHIAVE_API_DI_GOOGLE_GEMINI
         PORT=5000
         ```
 
 4.  **Avviare il server:**
-    ```bash
-    npm run dev
-    ```
+    * Per lo sviluppo (con riavvio automatico):
+        ```bash
+        npm run dev
+        ```
 Il server sarà in ascolto su `http://localhost:5000`.
