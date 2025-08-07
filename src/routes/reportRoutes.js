@@ -12,11 +12,9 @@ const {
   exportReports
 } = require('../controllers/reportController');
 
-router.use(protect);
+router.route('/').post(createReport);
 
-router.route('/')
-  .post(createReport)
-  .get(getReports);
+router.route('/').get(protect, getReports);
 
 router.get('/export', protect, authorize('Analista', 'Admin'), exportReports);
 

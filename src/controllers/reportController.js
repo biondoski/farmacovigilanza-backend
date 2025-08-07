@@ -23,7 +23,7 @@ exports.createReport = async (req, res) => {
         ...reportData.reazione,
         sintomiCategorizzati: sintomiEstratti,
       },
-      submittedBy: req.user._id
+      submittedBy: req.user ? req.user._id : null
     });
 
     const savedReport = await newReport.save();
